@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="text-center py-5 px-3" style="background: linear-gradient(135deg, #1a3c5e, #2e6da4); border-radius: 12px; color: white; margin-bottom: 2rem;">
+    <i class="bi bi-building" style="font-size: 3.5rem;"></i>
+    <h1 class="display-4 fw-bold mt-2">Hotel Los Patitos</h1>
+    <p class="lead">Bienvenido al sistema de reservaciones</p>
+    <a asp-controller="Reservas" asp-action="Index" class="btn btn-light btn-lg mt-2">
+        <i class="bi bi-search"></i> Ver habitaciones disponibles
+    </a>
+</div>
+
+<div class="row g-4 text-center mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body p-4">
+                <i class="bi bi-door-open-fill text-primary" style="font-size: 2.8rem;"></i>
+                <h5 class="card-title fw-bold mt-3">Habitaciones</h5>
+                <p class="card-text text-muted">Administra las habitaciones del hotel: registra, edita y consulta el estado de cada una.</p>
+                <a asp-controller="Habitaciones" asp-action="Index" class="btn btn-primary">
+                    Ir a Habitaciones
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body p-4">
+                <i class="bi bi-calendar-check-fill text-primary" style="font-size: 2.8rem;"></i>
+                <h5 class="card-title fw-bold mt-3">Reservas</h5>
+                <p class="card-text text-muted">Consulta las habitaciones disponibles, realiza una reserva o busca una reservacion existente.</p>
+                <a asp-controller="Reservas" asp-action="Index" class="btn btn-primary">
+                    Ir a Reservas
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body p-4">
+                <i class="bi bi-clipboard-data-fill text-primary" style="font-size: 2.8rem;"></i>
+                <h5 class="card-title fw-bold mt-3">Reserva administrativa</h5>
+                <p class="card-text text-muted">Consulta el historico completo de todas las reservaciones, con filtro por habitacion.</p>
+                <a asp-controller="ReservasAdmin" asp-action="Index" class="btn btn-primary">
+                    Ir a Reserva administrativa
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h4 class="fw-bold mb-4 text-center" style="color: #1a3c5e;">Tipos de habitacion</h4>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <i class="bi bi-1-circle-fill text-primary" style="font-size: 2.2rem;"></i>
+                <h5 class="fw-bold mt-2 mb-1">Junior</h5>
+                <p class="text-muted mb-0">Ideal para estadias cortas y viajeros individuales.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-2-circle-fill text-primary" style="font-size: 2.2rem;"></i>
+                <h5 class="fw-bold mt-2 mb-1">Superior</h5>
+                <p class="text-muted mb-0">Mas espacio y comodidad para familias o parejas.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-3-circle-fill text-primary" style="font-size: 2.2rem;"></i>
+                <h5 class="fw-bold mt-2 mb-1">Suite</h5>
+                <p class="text-muted mb-0">La maxima experiencia de lujo y confort en el hotel.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 text-center">
+    <div class="col-md-3">
+        <div class="p-3">
+            <i class="bi bi-shield-check text-primary" style="font-size: 2rem;"></i>
+            <p class="fw-semibold mt-2 mb-0">Reservas seguras</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3">
+            <i class="bi bi-clock-history text-primary" style="font-size: 2rem;"></i>
+            <p class="fw-semibold mt-2 mb-0">Disponibilidad en tiempo real</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3">
+            <i class="bi bi-cash-coin text-primary" style="font-size: 2rem;"></i>
+            <p class="fw-semibold mt-2 mb-0">Precios transparentes</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3">
+            <i class="bi bi-headset text-primary" style="font-size: 2rem;"></i>
+            <p class="fw-semibold mt-2 mb-0">Atencion personalizada</p>
+        </div>
+    </div>
+</div>

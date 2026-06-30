@@ -1,0 +1,92 @@
+﻿@model HotelLosPalitos.ViewModels.ReservaFormViewModel
+
+@{
+    ViewData["Title"] = "Reservar habitacion";
+}
+
+<h2>Reservar habitacion</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.NombreDeHabitacion (@Model.CodigoDeHabitacion)</h5>
+        <p class="card-text">
+            Tipo: <strong>@Model.TipoDeHabitacionTexto</strong> &nbsp;|&nbsp;
+            Costo por noche: <strong>@Model.CostoDeReserva.ToString("C2")</strong> &nbsp;|&nbsp;
+            Costo de limpieza: <strong>@Model.CostoDeLimpieza.ToString("C2")</strong>
+        </p>
+    </div>
+</div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-controller="Reservas" asp-action="Reservar" method="post">
+    <input type="hidden" asp-for="IdHabitacion" />
+    <input type="hidden" asp-for="CodigoDeHabitacion" />
+    <input type="hidden" asp-for="NombreDeHabitacion" />
+    <input type="hidden" asp-for="TipoDeHabitacionTexto" />
+    <input type="hidden" asp-for="CostoDeReserva" />
+    <input type="hidden" asp-for="CostoDeLimpieza" />
+
+    <div class="mb-3">
+        <label asp-for="NombreDeLaPersona" class="form-label"></label>
+        <input asp-for="NombreDeLaPersona" class="form-control" />
+        <span asp-validation-for="NombreDeLaPersona" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Identificacion" class="form-label"></label>
+        <input asp-for="Identificacion" class="form-control" />
+        <span asp-validation-for="Identificacion" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Telefono" class="form-label"></label>
+        <input asp-for="Telefono" class="form-control" />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Correo" class="form-label"></label>
+        <input asp-for="Correo" class="form-control" type="email" />
+        <span asp-validation-for="Correo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaNacimiento" class="form-label"></label>
+        <input asp-for="FechaNacimiento" class="form-control" type="date" />
+        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Direccion" class="form-label"></label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CantidadDePersonas" class="form-label"></label>
+        <input asp-for="CantidadDePersonas" class="form-control" type="number" />
+        <span asp-validation-for="CantidadDePersonas" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaInicioReserva" class="form-label"></label>
+        <input asp-for="FechaInicioReserva" class="form-control" type="date" />
+        <span asp-validation-for="FechaInicioReserva" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaFinReserva" class="form-label"></label>
+        <input asp-for="FechaFinReserva" class="form-control" type="date" />
+        <span asp-validation-for="FechaFinReserva" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Confirmar reserva</button>
+    <a asp-controller="Reservas" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

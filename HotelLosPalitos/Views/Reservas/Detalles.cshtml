@@ -1,0 +1,54 @@
+﻿@model HotelLosPalitos.ViewModels.ReservaDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalles de reservacion";
+}
+
+<h2>Detalles de la reservacion</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">Numero de reservacion</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+
+            <dt class="col-sm-4">Nombre de la persona</dt>
+            <dd class="col-sm-8">@Model.NombreDeLaPersona</dd>
+
+            <dt class="col-sm-4">Telefono</dt>
+            <dd class="col-sm-8">@Model.Telefono</dd>
+
+            <dt class="col-sm-4">Correo</dt>
+            <dd class="col-sm-8">@Model.Correo</dd>
+
+            <dt class="col-sm-4">Identificacion</dt>
+            <dd class="col-sm-8">@Model.Identificacion</dd>
+
+            <dt class="col-sm-4">Fecha de nacimiento</dt>
+            <dd class="col-sm-8">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4">Direccion</dt>
+            <dd class="col-sm-8">@Model.Direccion</dd>
+
+            <dt class="col-sm-4">Codigo de habitacion</dt>
+            <dd class="col-sm-8">@Model.CodigoDeHabitacion</dd>
+
+            <dt class="col-sm-4">Tipo de habitacion</dt>
+            <dd class="col-sm-8">@Model.TipoDeHabitacionTexto</dd>
+
+            <dt class="col-sm-4">Monto total</dt>
+            <dd class="col-sm-8">@Model.MontoTotal.ToString("C2")</dd>
+
+            <dt class="col-sm-4">Fecha de inicio de reserva</dt>
+            <dd class="col-sm-8">@Model.FechaInicioReserva.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4">Fecha de fin de reserva</dt>
+            <dd class="col-sm-8">@Model.FechaFinReserva.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4">Fecha de reservacion</dt>
+            <dd class="col-sm-8">@Model.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
+        </dl>
+
+        <a asp-controller="Reservas" asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+    </div>
+</div>
