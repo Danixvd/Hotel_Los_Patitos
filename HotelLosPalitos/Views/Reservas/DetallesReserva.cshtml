@@ -1,0 +1,59 @@
+﻿@model HotelLosPalitos.ViewModels.ReservaDetailsViewModel
+
+<div class="detail-section-label">Datos del huesped</div>
+<div class="detail-grid">
+    <div class="detail-item">
+        <div class="label">Nombre de la persona</div>
+        <div class="value">@Model.NombreDeLaPersona</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Identificacion</div>
+        <div class="value">@Model.Identificacion</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Telefono</div>
+        <div class="value">@Model.Telefono</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Correo</div>
+        <div class="value">@Model.Correo</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Fecha de nacimiento</div>
+        <div class="value">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Cantidad de personas</div>
+        <div class="value">@Model.CantidadDePersonas</div>
+    </div>
+</div>
+
+<div class="detail-section-label">Habitacion y estadia</div>
+<div class="detail-grid">
+    <div class="detail-item">
+        <div class="label">Codigo de habitacion</div>
+        <div class="value">@Model.CodigoDeHabitacion</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Tipo de habitacion</div>
+        <div class="value">@Model.TipoDeHabitacionTexto</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Fecha de inicio</div>
+        <div class="value">@Model.FechaInicioReserva.ToString("dd/MM/yyyy")</div>
+    </div>
+    <div class="detail-item">
+        <div class="label">Fecha de fin</div>
+        <div class="value">@Model.FechaFinReserva.ToString("dd/MM/yyyy")</div>
+    </div>
+</div>
+
+<div class="detail-total">
+    <div>
+        <div class="label">Numero de reservacion #@Model.Id</div>
+        <div class="value" style="font-weight:500; font-size:0.85rem; color:var(--color-text-muted);">
+            Registrada el @Model.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")
+        </div>
+    </div>
+    <div class="amount">@Model.MontoTotal.ToString("C2")</div>
+</div>

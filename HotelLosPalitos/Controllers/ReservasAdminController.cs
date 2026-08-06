@@ -1,9 +1,11 @@
 ﻿using HotelLosPalitos.LogicaDeNegocio;
 using HotelLosPalitos.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelLosPalitos.Controllers;
 
+[Authorize(Roles = "Administrador")]
 public class ReservasAdminController : Controller
 {
     private readonly ReservacionServicio _reservacionServicio;

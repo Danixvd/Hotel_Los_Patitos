@@ -27,4 +27,6 @@ public class ReservaDetailsViewModel
     public DateTime FechaFinReserva { get; set; }
 
     public DateTime FechaDeRegistro { get; set; }
+
+    public int CantidadDePersonas { get; set; }
 }

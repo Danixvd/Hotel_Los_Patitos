@@ -8,7 +8,9 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<form asp-controller="Habitaciones" asp-action="Registrar" method="post">
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <form asp-controller="Habitaciones" asp-action="Registrar" method="post">
     <div class="mb-3">
         <label asp-for="CodigoDeHabitacion" class="form-label"></label>
         <input asp-for="CodigoDeHabitacion" class="form-control" />
@@ -78,9 +80,11 @@
         <label asp-for="Estado" class="form-check-label"></label>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a asp-controller="Habitaciones" asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-controller="Habitaciones" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     @{

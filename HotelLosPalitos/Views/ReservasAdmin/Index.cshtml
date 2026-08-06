@@ -2,33 +2,54 @@
 
 @{
     ViewData["Title"] = "Reserva administrativa";
+
+    var totalReservas = Model.Reservas.Count;
+    var montoTotal = Model.Reservas.Sum(r => r.MontoTotal);
+    var montoPromedio = totalReservas > 0 ? montoTotal / totalReservas : 0;
 }
 
 <h2>Historico de reservas</h2>
 
-<form asp-controller="ReservasAdmin" asp-action="Index" method="get" class="row g-2 mb-3">
-    <div class="col-auto">
-        <label class="form-label">Filtrar por Id de habitacion</label>
-        <input type="number" name="idHabitacion" value="@Model.IdHabitacionFiltro"
-               class="form-control" placeholder="Id de la habitacion" />
+<div class="stat-strip">
+    <div class="stat-card">
+        <div class="stat-label">Total de reservas</div>
+        <div class="stat-value">@totalReservas</div>
     </div>
-    <div class="col-auto align-self-end">
-        <button type="submit" class="btn btn-primary">Filtrar</button>
-        <a asp-controller="ReservasAdmin" asp-action="Index" class="btn btn-secondary">Limpiar filtro</a>
+    <div class="stat-card">
+        <div class="stat-label">Ingresos totales</div>
+        <div class="stat-value">@montoTotal.ToString("C0")</div>
     </div>
-</form>
+    <div class="stat-card">
+        <div class="stat-label">Promedio por reserva</div>
+        <div class="stat-value">@montoPromedio.ToString("C0")</div>
+    </div>
+</div>
 
-<table class="table table-striped table-bordered">
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form asp-controller="ReservasAdmin" asp-action="Index" method="get" class="row g-2">
+            <div class="col-auto">
+                <label class="form-label">Filtrar por Id de habitacion</label>
+                <input type="number" name="idHabitacion" value="@Model.IdHabitacionFiltro"
+                       class="form-control" placeholder="Id de la habitacion" />
+            </div>
+            <div class="col-auto align-self-end">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a asp-controller="ReservasAdmin" asp-action="Index" class="btn btn-secondary">Limpiar filtro</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered align-middle">
     <thead class="table-dark">
         <tr>
-            <th>Nombre de persona</th>
-            <th>Telefono</th>
-            <th>Correo</th>
+            <th>Persona</th>
+            <th>Contacto</th>
             <th>Identificacion</th>
             <th>Monto total</th>
             <th>Fecha de nacimiento</th>
-            <th>Fecha inicio reservacion</th>
-            <th>Fecha fin reservacion</th>
+            <th>Estadia</th>
             <th>Fecha de registro</th>
         </tr>
     </thead>
@@ -36,22 +57,37 @@
         @if (!Model.Reservas.Any())
         {
             <tr>
-                <td colspan="9" class="text-center">No hay reservas registradas.</td>
+                <td colspan="7" class="text-center">No hay reservas registradas.</td>
             </tr>
         }
         else
         {
             @foreach (var reserva in Model.Reservas)
             {
+                var iniciales = string.Join("", reserva.NombreDePersona
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .Take(2)
+                    .Select(p => p[0]))
+                    .ToUpper();
+
                 <tr>
-                    <td>@reserva.NombreDePersona</td>
-                    <td>@reserva.Telefono</td>
-                    <td>@reserva.Correo</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="guest-avatar">@iniciales</span>
+                            <span>#@reserva.Id &nbsp; @reserva.NombreDePersona</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>@reserva.Telefono</div>
+                        <div class="room-card-meta" style="font-size: 0.82rem;">@reserva.Correo</div>
+                    </td>
                     <td>@reserva.Identificacion</td>
-                    <td>@reserva.MontoTotal.ToString("C2")</td>
+                    <td class="fw-semibold">@reserva.MontoTotal.ToString("C2")</td>
                     <td>@reserva.FechaNacimiento.ToString("dd/MM/yyyy")</td>
-                    <td>@reserva.FechaInicioReservacion.ToString("dd/MM/yyyy")</td>
-                    <td>@reserva.FechaFinReservacion.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <div>@reserva.FechaInicioReservacion.ToString("dd/MM/yyyy")</div>
+                        <div class="room-card-meta" style="font-size: 0.82rem;">hasta @reserva.FechaFinReservacion.ToString("dd/MM/yyyy")</div>
+                    </td>
                     <td>@reserva.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</td>
                 </tr>
             }

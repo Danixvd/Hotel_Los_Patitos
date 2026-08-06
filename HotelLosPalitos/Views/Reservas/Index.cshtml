@@ -8,67 +8,169 @@
 
 @if (TempData["MensajeNoEncontrada"] != null)
 {
-    <div class="alert alert-warning">@TempData["MensajeNoEncontrada"]</div>
+    <div class="alert alert-warning alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle"></i> @TempData["MensajeNoEncontrada"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 }
 
 @if (TempData["MensajeExito"] != null)
 {
-    <div class="alert alert-success">@TempData["MensajeExito"]</div>
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle"></i> @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 }
 
-<div class="card mb-4">
+<div class="card mb-4 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">Buscar reserva por numero de reservacion</h5>
-        <form asp-controller="Reservas" asp-action="Buscar" method="post" class="row g-2">
+        <h5 class="card-title">
+            <i class="bi bi-search"></i> Buscar reserva por numero de reservacion
+        </h5>
+        <div class="row g-2">
             <div class="col-auto">
-                <input type="number" name="idReservacion" class="form-control"
-                       placeholder="Numero de reservacion" required />
+                <input type="number" id="inputIdReservacion" class="form-control"
+                       placeholder="Numero de reservacion" min="1" />
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="button" class="btn btn-primary" id="btnBuscarReserva">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
             </div>
-        </form>
+        </div>
+        <div id="mensajeBusqueda" class="mt-2 text-danger small" style="display:none;"></div>
     </div>
 </div>
 
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Nombre de habitacion</th>
-            <th>Huespedes</th>
-            <th>Camas</th>
-            <th>Banos</th>
-            <th>Ubicacion</th>
-            <th>Costo por noche</th>
-            <th>Tipo</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (!Model.Any())
+@if (!Model.Any())
+{
+    <div class="alert alert-warning text-center">No hay habitaciones disponibles para reservar.</div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var habitacion in Model)
         {
-            <tr>
-                <td colspan="8" class="text-center">No hay habitaciones disponibles para reservar.</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (var habitacion in Model)
+            string iconoTipo = habitacion.TipoDeHabitacionTexto switch
             {
-                <tr>
-                    <td>@habitacion.NombreDeHabitacion</td>
-                    <td>@habitacion.CantidadDeHuespedes</td>
-                    <td>@habitacion.CantidadDeCamas</td>
-                    <td>@habitacion.CantidadDeBanos</td>
-                    <td>@habitacion.Ubicacion</td>
-                    <td>@habitacion.CostoPorNoche.ToString("C2")</td>
-                    <td>@habitacion.TipoDeHabitacionTexto</td>
-                    <td>
-                        <a asp-controller="Reservas" asp-action="Reservar" asp-route-id="@habitacion.IdHabitacion"
-                           class="btn btn-sm btn-success">Reservar</a>
-                    </td>
-                </tr>
-            }
+                "Junior" => "bi-1-circle",
+                "Superior" => "bi-2-circle",
+                "Suite" => "bi-star",
+                _ => "bi-door-open"
+            };
+
+            <div class="col-md-6 col-lg-4">
+                <div class="room-card h-100 d-flex flex-column">
+                    <div class="room-card-header">
+                        <span class="room-type-icon"><i class="bi @iconoTipo"></i></span>
+                        <div>
+                            <div class="room-card-type">@habitacion.NombreDeHabitacion</div>
+                            <div class="room-card-subtype">@habitacion.TipoDeHabitacionTexto</div>
+                        </div>
+                    </div>
+                    <div class="p-3 flex-grow-1 d-flex flex-column">
+                        <p class="room-card-meta mb-3"><i class="bi bi-geo-alt"></i> @habitacion.Ubicacion</p>
+
+                        <div class="mb-3">
+                            <span class="amenity-chip"><i class="bi bi-people"></i> @habitacion.CantidadDeHuespedes huespedes</span>
+                            <span class="amenity-chip"><i class="bi bi-door-closed"></i> @habitacion.CantidadDeCamas camas</span>
+                            <span class="amenity-chip"><i class="bi bi-droplet"></i> @habitacion.CantidadDeBanos banos</span>
+                        </div>
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="room-card-price">@habitacion.CostoPorNoche.ToString("C2")</div>
+                                <div class="room-card-meta" style="font-size: 0.8rem;">por noche</div>
+                            </div>
+                            <a asp-controller="Reservas" asp-action="Reservar"
+                               asp-route-id="@habitacion.IdHabitacion"
+                               class="btn btn-success">
+                                <i class="bi bi-calendar-plus"></i> Reservar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+}
+
+<div class="modal fade" id="modalDetallesReserva" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header detail-card-header border-0">
+                <h5 class="modal-title">
+                    <i class="bi bi-calendar-check"></i> Detalles de la reservacion
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="text-center py-3">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2">Cargando...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('btnBuscarReserva').addEventListener('click', function() {
+            var idReservacion = document.getElementById('inputIdReservacion').value;
+            var mensajeDiv = document.getElementById('mensajeBusqueda');
+
+            mensajeDiv.style.display = 'none';
+            mensajeDiv.textContent = '';
+
+            if (!idReservacion || idReservacion <= 0) {
+                mensajeDiv.textContent = 'Ingresa un numero de reservacion valido.';
+                mensajeDiv.style.display = 'block';
+                return;
+            }
+
+            var modal = new bootstrap.Modal(document.getElementById('modalDetallesReserva'));
+            document.getElementById('modalBody').innerHTML =
+                '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Cargando...</p></div>';
+            modal.show();
+
+            fetch('/Reservas/BuscarParcial?idReservacion=' + idReservacion)
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud');
+                    }
+                    var contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json().then(function(data) {
+                            modal.hide();
+                            mensajeDiv.textContent =
+                                'Estimado usuario, no se ha encontrado la reserva, favor realice una';
+                            mensajeDiv.style.display = 'block';
+                        });
+                    } else {
+                        return response.text().then(function(html) {
+                            document.getElementById('modalBody').innerHTML = html;
+                        });
+                    }
+                })
+                .catch(function() {
+                    modal.hide();
+                    mensajeDiv.textContent = 'Ocurrio un error al buscar la reservacion. Intente de nuevo.';
+                    mensajeDiv.style.display = 'block';
+                });
+        });
+
+        document.getElementById('inputIdReservacion').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('btnBuscarReserva').click();
+            }
+        });
+    </script>
+}
